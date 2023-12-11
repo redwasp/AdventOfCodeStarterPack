@@ -3,95 +3,105 @@ import XCTest
 
 final class PositionTests: XCTestCase {
     
-    func testZerro() throws {
+    func testInitZerro() throws {
         let p = Position()
-        XCTAssertEqual(p.x, 0)
-        XCTAssertEqual(p.y, 0)
+        XCTAssertEqual(p, Position(0, 0))
+        XCTAssertEqual(p, Position(x:0, y:0))
+        XCTAssertEqual(p, Position([0, 0]))
+        XCTAssertEqual(p, .zero)
     }
     
-    func testNormal() throws {
+    func testInitNormal() throws {
         let p = Position(1, 2)
         XCTAssertEqual(p.x, 1)
         XCTAssertEqual(p.y, 2)
     }
     
-    func testVactor() throws {
+    func testInitVector() throws {
         let p = Position([1, 2])
         XCTAssertNotNil(p)
         XCTAssertEqual(p!.x, 1)
         XCTAssertEqual(p!.y, 2)
     }
     
-    func testString() throws {
+    func testInitString() throws {
         let p = Position("(1, 2)")
         XCTAssertNotNil(p)
         XCTAssertEqual(p!.x, 1)
         XCTAssertEqual(p!.y, 2)
     }
     
-    func testString2() throws {
+    func testInitString2() throws {
         let p = Position("123 345")
         XCTAssertNotNil(p)
         XCTAssertEqual(p!.x, 123)
         XCTAssertEqual(p!.y, 345)
     }
     
-    func testString3() throws {
+    func testInitString3() throws {
         let p = Position("x:123y:345")
         XCTAssertNotNil(p)
         XCTAssertEqual(p!.x, 123)
         XCTAssertEqual(p!.y, 345)
     }
     
-    func testField1() throws {
-        var a  = [[0, 1], [2, 3]]
-        let p00 = Position(0,0)
-        let p01 = Position(0,1)
-        let p10 = Position(1,0)
-        let p11 = Position(1,1)
-        XCTAssertEqual(a[p00], 0)
-        XCTAssertEqual(a[p10], 1)
-        XCTAssertEqual(a[p01], 2)
-        XCTAssertEqual(a[p11], 3)
-        a[p00] = 4
-        a[p01] = 5
-        a[p10] = 6
-        a[p11] = 7
-        XCTAssertEqual(a[p00], 4)
-        XCTAssertEqual(a[p01], 5)
-        XCTAssertEqual(a[p10], 6)
-        XCTAssertEqual(a[p11], 7)
+    func testAdd() throws {
+        XCTAssertEqual(Position( 1,  1) + Position( 1,  1), Position( 2,  2))
+        XCTAssertEqual(Position( 1,  1) + Position(-1, -1), Position( 0,  0))
+        XCTAssertEqual(Position( 1,  2) + Position( 5,  6), Position( 6,  8))
+        XCTAssertEqual(Position( 1,  2) + Position( 0,  0), Position( 1,  2))
+        XCTAssertEqual(Position( 0,  0) + Position( 1,  2), Position( 1,  2))
+        XCTAssertEqual(Position(-2,  3) + Position( 1, -5), Position(-1, -2))
     }
     
-    func testField2() throws {
-        var a  = [["a", "b"], ["c", "d"]]
-        let p00 = Position(0, 0)
-        let p01 = Position(0, 1)
-        let p10 = Position(1, 0)
-        let p11 = Position(1, 1)
-        XCTAssertEqual(a[p00], "a")
-        XCTAssertEqual(a[p10], "b")
-        XCTAssertEqual(a[p01], "c")
-        XCTAssertEqual(a[p11], "d")
-        a[p00] = "e"
-        a[p01] = "f"
-        a[p10] = "g"
-        a[p11] = "h"
-        XCTAssertEqual(a[p00], "e")
-        XCTAssertEqual(a[p01], "f")
-        XCTAssertEqual(a[p10], "g")
-        XCTAssertEqual(a[p11], "h")
+    func testAdd2() throws {
+        var a = Position(100,  100)
+        var b = Position(3  , -1  )
+        a += b
+        XCTAssertEqual(a, Position(103,  99))
+        b += a
+        XCTAssertEqual(b, Position(106,  98))
+        a += .zero
+        XCTAssertEqual(a, Position(103,  99))
+        a += b + b
+        XCTAssertEqual(a, Position(315,  295))
     }
     
-//    func testField3() throws {
-//        var a  = [0: [0: "a", 1: "b"], 1: [0: "c", 1: "d"]]
-//        let p00 = Position(0, 0)
-//        let p01 = Position(0, 1)
-//        let p10 = Position(1, 0)
-//        let p11 = Position(1, 1)
-//        XCTAssertEqual(a[p00], "a")
-//        XCTAssertEqual(a[p10], "b")
-//        XCTAssertEqual(a[p01], "c")
-//        XCTAssertEqual(a[p11], "d")
-//    }
+    func testRotate() throws {
+        var a = Position.up
+        a.rotateRight()
+        XCTAssertEqual(a, .right)
+        a.rotateRight()
+        XCTAssertEqual(a, .down)
+        a.rotateRight()
+        XCTAssertEqual(a, .left)
+        a.rotateRight()
+        XCTAssertEqual(a, .up)
+        
+        a.rotateLeft()
+        XCTAssertEqual(a, .left)
+        a.rotateLeft()
+        XCTAssertEqual(a, .down)
+        a.rotateLeft()
+        XCTAssertEqual(a, .right)
+        a.rotateLeft()
+        XCTAssertEqual(a, .up)
+        
+        a.reverse()
+        XCTAssertEqual(a, .down)
+        a.rotateRight()
+        a.reverse()
+        XCTAssertEqual(a, .right)
+    }
+    
+    func testRotated() throws {
+        var a = Position.up
+        a = a.rotatedRight()
+        XCTAssertEqual(a, .right)
+        a = a.rotatedLeft()
+        XCTAssertEqual(a, .up)
+        a.reverse()
+        XCTAssertEqual(a, .down)
+    }
+
 }

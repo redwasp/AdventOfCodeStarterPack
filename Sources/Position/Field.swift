@@ -11,7 +11,7 @@ public extension MutableCollection where Self.Element: MutableCollection, Self.I
     
     subscript(_ position: Position) -> Self.Element.Element {
         get {
-            return self[position.y][position.x]
+            self[position.y][position.x]
         }
         set {
             self[position.y][position.x] = newValue
@@ -43,6 +43,17 @@ public extension MutableCollection where Self.Element: MutableCollection, Self.I
     var maxSize: Position {
         guard self.count > 0 else {return .zero}
         return Position(self.map{$0.count}.max()!, self.count)
+    }
+    
+    func transform<T>(_ transform: (Position, Self.Element.Element) throws -> T) rethrows -> [[T]] {
+        var grid : [[T]] = []
+        for y in 0..<self.count {
+            for x in 0..<self[y].count {
+                let position = Position(x, y)
+                grid[position] = try transform(Position(x, y), self[position])
+            }
+        }
+        return grid
     }
 }
 

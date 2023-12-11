@@ -25,18 +25,20 @@ extension Position: Equatable {
 extension Position: Comparable {
     public static func < (lhs: Self, rhs: Self) -> Bool {
         if lhs.y == rhs.y {
-            return lhs.x < rhs.x
+            lhs.x < rhs.x
         } else {
-            return lhs.y < rhs.y
+            lhs.y < rhs.y
         }
     }
 }
 
 public extension Position {
+    
     init?(_ v: [Int]) {
+        precondition(v.count == 2, "Vector must contain 2 elements")
         guard v.count == 2 else {return nil}
-        self.x = v[0]
-        self.y = v[1]
+        x = v[0]
+        y = v[1]
     }
     
     var vector: [Int] {
@@ -94,7 +96,7 @@ public extension Position {
     }
     
     static func / (position: Position, divider: Int) -> Position {
-        return Position(position.x / divider, position.y / divider)
+        Position(position.x / divider, position.y / divider)
     }
     
     static func /= (position: inout Position, divider: Int){
@@ -102,7 +104,7 @@ public extension Position {
     }
     
     static func % (position: Position, divider: Int) -> Position {
-        return Position(position.x % divider, position.y % divider)
+        Position(position.x % divider, position.y % divider)
     }
     
     static func %= (position: inout Position, divider: Int){
@@ -135,13 +137,13 @@ public extension Position {
     static func directions(clockwise: Bool = true, diagonal: Bool = false) -> [Position] {
         switch (clockwise, diagonal) {
         case (true, false):
-            return [.up, .right, .down, .left]
+            [.up, .right, .down, .left]
         case (false, false):
-            return [.up, .left, .down, .right]
+            [.up, .left, .down, .right]
         case (true, true):
-            return [.up, .upRight, .right, .downRight, .down, .downLeft, .left, .upLeft]
+            [.up, .upRight, .right, .downRight, .down, .downLeft, .left, .upLeft]
         case (false, true):
-            return [.up, .upLeft , .left, .downLeft, .down, .downRight, .right, .upRight]
+            [.up, .upLeft , .left, .downLeft, .down, .downRight, .right, .upRight]
         }
     }
 }
