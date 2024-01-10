@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import Position
+@testable import AdventOfCodeStarterPack
 
 final class FieldTestCase: XCTestCase {
 

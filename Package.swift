@@ -4,23 +4,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "Position",
+    name: "AdventOfCodeStarterPack",
     products: [
         .library(
-            name: "Position",
-            targets: ["Position"]
+            name: "AdventOfCodeStarterPack",
+            targets: ["AdventOfCodeStarterPack"]
         ),
     ],
     dependencies: [
     ],
     targets: [
         .target(
-            name: "Position",
+            name: "AdventOfCodeStarterPack",
             dependencies: []
         ),
         .testTarget(
-            name: "PositionTests",
-            dependencies: ["Position"]
+            name: "AdventOfCodeStarterPackTests",
+            dependencies: ["AdventOfCodeStarterPack"]
         ),
     ]
 )
