@@ -10,6 +10,7 @@ import Foundation
 infix operator %%=
 infix operator %%
 
+public
 extension Int {
     static func %% (_ left: Int, _ right: Int) -> Int {
        let mod = left % right
