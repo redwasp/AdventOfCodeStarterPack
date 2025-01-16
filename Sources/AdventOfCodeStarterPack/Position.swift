@@ -223,6 +223,21 @@ public extension Directions {
     static var   upRight: Directions = [.up,   .right, .left,  .down]
 }
 
+public extension Direction {
+    var index: Int {
+        switch self {
+        case .up:    0
+        case .down:  1
+        case .left:  2
+        case .right: 3
+        case .upLeft: 4
+        case .upRight: 5
+        case .downLeft: 6
+        case .downRight: 7
+        default: -1
+        }
+    }
+}
 
 
 
