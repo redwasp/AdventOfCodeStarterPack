@@ -1,3 +1,3 @@
 # AdventOfCodeStarterPack
 
-Collection of current tools for solving [AdventOfCode](https://adventofcode.com) tasks
+Collection of current tools for solving [AdventOfCode](https://adventofcode.com) tasks.
